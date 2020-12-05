@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id = "button">login</button>
+</body>
+
+<script>
+    const button = document.getElementById("button");
+        button.addEventListener("click",(ev)=>{
+                fetch("http://localhost:8080/login",{
+            method:'GET',
+        //      mode: 'no-cors',
+            credentials: 'same-origin',
+
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            }
+            // body:JSON.stringify({userName:"sakhkhnbmkasjadagh",password:"man",firstName:"manih",lastName:"h",description:"cs"})
+        })
+        .then((data)=>{
+            console.log(data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    });
+</script>
+</html>
