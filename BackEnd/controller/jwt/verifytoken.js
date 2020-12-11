@@ -7,10 +7,12 @@ const verifyToken = (claimToken)=>{
                 if(!err){
                     resolve(decoded);
                 }else{
-                    reject(err);
+                    reject("you are not authenticated");
                 }
             })
         })
 
     );
 } 
+
+module.exports = verifyToken;

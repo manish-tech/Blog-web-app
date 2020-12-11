@@ -8,7 +8,7 @@ const createToken = (userName)=>{
                     resolve(token);
                 }
                 else{
-                    reject(err);
+                    reject("please try again");
                 }
             });
         })       

@@ -13,7 +13,7 @@ module.exports.insertUser = (body,hash)=>{
                 if(!err){
                     resolve({results,fields});
                 }else{
-                    reject(err);
+                    reject(err.sqlMessage);
                 }
             });
         })    

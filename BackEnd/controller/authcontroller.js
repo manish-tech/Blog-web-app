@@ -2,19 +2,9 @@ const bcrypt = require('bcrypt');
 const {createToken}= require('./jwt/createtoken')
 const {insertUser} = require("../database/user");
 const {selectUser} = require("../database/user");
+const verifyToken = require("./jwt/verifytoken")
 const connection = require('../database/db');
 
-const compare = (password,hash)=>{
-    return (new Promise((resolve,reject)=>{
-            bcrypt.compare(password,hash,(err,result)=>{
-                if(!err && result !== false)
-                    resolve(result);
-                else
-                    reject(result);
-            });
-        })
-    );
-}   
 module.exports.register = (req,res)=>{
     const  password  = req.body.password;
     bcrypt.hash(password,10)
@@ -22,39 +12,66 @@ module.exports.register = (req,res)=>{
         return insertUser(req.body,hash);
     })
     .then((result)=>{
-        return createToken(req.body.user_name);
+        return createToken(req.body.userName);
     })
     .then((token)=>{
-        res.cookie('token',token,{
-            httpOnly:true,
-            maxAge:60*60*24,    
-        })
-        res.status(200).json({status:true});
+        try{
+            res.cookie('token',token,{
+                httpOnly:true,
+                maxAge:1000*60*60*24 
+            })
+            res.status(200).json({status:true});
+        }
+        catch(error){
+            res.res.status(400).json({ status:false , message : "please try again" });
+        }
     })
-    .catch((err)=>{
-        console.log(err);
-        res.status(400).json({ status:false , message : err.sqlMessage });
+    .catch((errorMessage)=>{
+        res.status(400).json({ status:false , message : errorMessage });
     });   
 };
 
 module.exports.login = (req,res)=>{
-    let errorMessage;
     selectUser(req.body)
     .then((result)=>{
-        return compare(req.body.password,result.results[0].hash);
+        return bcrypt.compare(req.body.password,result.results[0].hash);
     })
-    .then(()=>{
-        return createToken(req.body.userName);
+    .then((result)=>{
+        if(result)
+            return createToken(req.body.userName);
+        else
+            throw new Error("password: incorrect password");
     })
     .then((token)=>{
-        res.cookie("token",token,{
-            httpOnly:true,
-            maxAge:60*60*24
-        })
-        res.status(200).json({status:true})
+        try{
+            res.cookie("token",token,{
+                httpOnly:true,
+                maxAge:1000*60*60*24
+            })
+            res.status(200).json({status:true});
+        }
+        catch(e){
+            res.status(400).json({status:false,message:"please try again"});
+        }
     })
-    .catch((err)=>{
-        res.status(400).json({status:false,message:errorMessage});
+    .catch((errorMessage)=>{
+        console.log( {errorMessage});
+        res.status(400).json({status:false,message:errorMessage.message || errorMessage});
     })
 };
 
+module.exports.isAuthenticated = (req,res)=>{
+    const cookies = req.cookies;
+    if(cookies.token){
+        verifyToken(cookies.token)
+        .then((decoded)=>{
+            res.status(200).json({status : true});
+        })
+        .catch((err)=>{
+            res.status(400).json({status : false});
+        })
+    }
+    else{
+        res.status(400).json({status : false});
+    }
+}

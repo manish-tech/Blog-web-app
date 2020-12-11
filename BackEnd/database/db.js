@@ -3,7 +3,8 @@ const connection =  mysql.createConnection({
                         user : process.env.DB_USER,
                         host : process.env.HOST,
                         database : process.env.DB_NAME,
-                        password : process.env.DB_PASSWORD
+                        password : process.env.DB_PASSWORD,
+                        dateStrings : true
                     });
 
 module.exports = connection;
