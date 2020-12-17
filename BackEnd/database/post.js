@@ -5,7 +5,7 @@ const getAllPosts = (data)=>{
     return(
         new Promise((resolve,reject)=>{
             const offset = connection.escape(parseInt(data.offset));
-
+            console.log(offset);
             const query =  `select post_id ,title , post_date , user_name , category_id , category_name , substring(content,1,100) as content
                             from post natural join category 
                             where post.category_id = category.category_id
@@ -74,3 +74,30 @@ const getCategoryPosts = (data)=>{
 }
 
 module.exports.getCategoryPosts = getCategoryPosts;
+
+const getOnePost = (data)=>{
+    
+    return (
+        new Promise((resolve,reject)=>{
+            const postId = connection.escape(parseInt(data.postId));
+            const query = `
+                select * from post natural join category
+                where post_id = ${postId};
+            `;
+
+            connection.query(query,(error,results,fields)=>{
+                if(!error){
+                    resolve({results,fields});
+                }
+                else{
+                    reject(error.sqlMessage);
+                }
+            });
+        })
+
+    );
+
+
+}
+
+module.exports.getOnePost = getOnePost;

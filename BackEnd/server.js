@@ -9,7 +9,8 @@ const authRouter = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const composepost = require("./routes/composepost");
 const category = require("./routes/category");
-
+const post = require("./routes/post");
+const comment = require("./routes/comment");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -17,6 +18,8 @@ app.use(cookieParser());
 app.use(authRouter);
 app.use("/compose",composepost);
 app.use("/category",category);
+app.use("/post",post);
+app.use("/comment",comment);
 
 const PORT = "8080";
 const HOST = "localhost";

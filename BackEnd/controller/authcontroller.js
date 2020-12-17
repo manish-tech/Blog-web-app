@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const {createToken}= require('./jwt/createtoken')
 const {insertUser} = require("../database/user");
 const {selectUser} = require("../database/user");
-const verifyToken = require("./jwt/verifytoken")
+const verifyToken = require("./jwt/verifytoken");
 const connection = require('../database/db');
 
 module.exports.register = (req,res)=>{
