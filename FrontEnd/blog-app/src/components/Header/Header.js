@@ -10,13 +10,32 @@ const HeaderStyle = styled.header`
     background-color:#f4f4f2;
     height:fit-content;
     width:100%;
+    top:0;
+    z-index : 10;
+    opacity : 1;
+    max-width : 100%;
+
+    @media screen and (max-width: 900px) {
+           
+            display : flex;
+            flex-direction : column;
+            justify-content : center;
+            align-items : center;
+    }
+`;
+
+const IconWrapper = styled.div`
+    display : flex;
+    justify-content : center;
+    align-items : center;
 `;
 const Paragraph = styled.p`
     font-size:3rem;
+    font-family :  'Ubuntu', sans-serif;
     font-weight:bold;
     margin:0;
 `;
-const Image = styled.img.attrs((props)=>{
+export const Image = styled.img.attrs((props)=>{
     return(
         {
             src:"./icon.png"
@@ -28,8 +47,10 @@ const Image = styled.img.attrs((props)=>{
 function Header() {
     return (
         <HeaderStyle>
-            <Image />
-            <Paragraph>Blog</Paragraph> 
+            <IconWrapper>
+                <Image />
+                <Paragraph>Blog</Paragraph> 
+            </IconWrapper>
             <NavBar/>
         </HeaderStyle>
     )

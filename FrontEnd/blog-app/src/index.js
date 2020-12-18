@@ -7,6 +7,7 @@ const GlobalCss = createGlobalStyle`
   body,html{
     margin:0;
     width:100%;
+    font-family :  'Ubuntu', sans-serif;
     
   }
   *{

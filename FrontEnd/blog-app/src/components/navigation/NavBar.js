@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 const NavbarStyle = styled.nav`
     width:90%;
+    max-width : 100%;
+ 
 `;
 
 const UnListStyle = styled.ul`
@@ -11,24 +13,30 @@ const UnListStyle = styled.ul`
     margin:0;
     display:flex;
     justify-content:flex-end;
+    @media screen and (max-width: 900px) {
+           margin-bottom :1.5em;
+   }
+
 `;
 
 const ListStyle = styled.li`
     
 `;
 
-const LinkStyle = styled(Link)` 
+export const LinkStyle = styled(Link)` 
     font-family: 'Ubuntu', sans-serif;
     text-decoration:none;
     color:black;
-    padding:0.5em;
+    padding:0.7em;
     margin-right:2em;
     font-size:1.2rem;
+    font-weight : bold;
     &:hover{
-        background-color:#fbf7f0;
+        background-color:#edefee;
+        color :black
     };
 
-    border-radius:20%;
+    border-radius:47%;
 `;
 
 function NavBar() {
@@ -39,7 +47,8 @@ function NavBar() {
                     <LinkStyle to = "/">Home</LinkStyle>
                 </ListStyle>
                 <ListStyle>
-                    <LinkStyle to = "about">About</LinkStyle>
+                    
+                    <LinkStyle to = "/about">About</LinkStyle>
 
                 </ListStyle>
                 <ListStyle>
@@ -49,7 +58,7 @@ function NavBar() {
                     <LinkStyle to = "/register">Register</LinkStyle>
                 </ListStyle>
                 <ListStyle>
-                    <LinkStyle to = "/compose">Compose</LinkStyle>
+                    <LinkStyle to = "/logout">Logout</LinkStyle>
                 </ListStyle>
             </UnListStyle>
         
