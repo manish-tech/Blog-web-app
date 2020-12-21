@@ -31,27 +31,21 @@ export const  CardWraper = styled.div`
   margin-bottom : 2em;
 
 `;
-export default function MainCard(props) {
+export default function Comment(props) {
   const classes = useStyles();
-  console.log(props);
+  
   return (
 
     <CardWraper>
     <Card className={classes.root}   >
       <CardContent  >
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          
-        </Typography>
-        <Typography variant="h5" component="h3">
-          {props.item.title}
+        <Typography variant="body2" component="p">
+          {props.comment.user_name}                     {props.comment.date_of_comment}
         </Typography>
         <Typography variant="body2" component="p">
-          {props.item.content}
+            {props.comment.content}
           <br />
         </Typography>
-      </CardContent>
-      <CardContent>
-        <Link to = {"/post/"+props.item.post_id} style = {{textDecoration :"none"}}  >Learn More</Link>
       </CardContent>
     </Card>
     </CardWraper>

@@ -1,15 +1,14 @@
 const connection = require("./db");
 
-const getAllPosts = (data)=>{
+const getAllPosts = ()=>{
    
     return(
         new Promise((resolve,reject)=>{
-            const offset = connection.escape(parseInt(data.offset));
-            console.log(offset);
+            
+           
             const query =  `select post_id ,title , post_date , user_name , category_id , category_name , substring(content,1,100) as content
                             from post natural join category 
-                            where post.category_id = category.category_id
-                            limit 10 offset ${offset*10}`;
+                            where post.category_id = category.category_id`;
                                           
             connection.query(query,(error,results,fields)=>{
                 if(!error){
@@ -51,12 +50,12 @@ module.exports.setPost = setPost;
 const getCategoryPosts = (data)=>{
     return(
         new Promise((resolve,reject)=>{
-            const offset = connection.escape(parseInt(data.offset));
+            
             const categoryId = connection.escape(parseInt(data.categoryId));
             const query = `
-                select * from post 
-                where category_id = ${categoryId}
-                limit 10 offset ${offset*10}
+            select post_id ,title , post_date , user_name , substring(content,1,100) as content 
+            from post 
+            where category_id = ${categoryId}
             `;
 
             connection.query(query,(error,results,fields)=>{

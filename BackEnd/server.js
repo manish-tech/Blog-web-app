@@ -11,10 +11,14 @@ const composepost = require("./routes/composepost");
 const category = require("./routes/category");
 const post = require("./routes/post");
 const comment = require("./routes/comment");
+const cors = require('cors');
+const path = require("path");
+
+app.use(express.static(path.join(__dirname ,'build')));
+app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
 app.use(authRouter);
 app.use("/compose",composepost);
 app.use("/category",category);
@@ -25,7 +29,7 @@ const PORT = "8080";
 const HOST = "localhost";
 
 app.get("/",(req,res)=>{
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile(path.join(__dirname,'build',"index.html"));
 })
 
 connection.connect((err)=>{

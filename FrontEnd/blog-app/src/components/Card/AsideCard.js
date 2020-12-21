@@ -10,11 +10,12 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 const StyledLink = styled(Link)`
+    font-family: 'Ubuntu',sans-serif;
     text-decoration : none;
     font-weight: bold;
     color : black;
     font-size:1.3rem;
-    width: 70%;
+    width: 100%;
     border-style:solid;
     border-width:0.2em;
     border-color : black;
@@ -45,32 +46,28 @@ const useStyles = makeStyles({
   },
 });
 
+const renderCategories = (categories)=>{
+    return(
+        categories.map((category)=>{
+            return(
+              <CardActions key = { category.category_id}>
+                <StyledLink to = {"/category/" + category.category_name +"?categoryId="+ category.category_id} > {category.category_name}</StyledLink>
+              </CardActions>
+            )
+        })
+    )
+}
 
-export default function AsideCard() {
+export default function AsideCard(props) {
   const classes = useStyles();
   return (
-     <CardWraper> 
-      
-    <Card className={classes.root}>
-      <CardContent>
-
-        <h3>Categories</h3>
-        <CardActions>
-        <StyledLink to = "/all"> all</StyledLink>
-      </CardActions>
-      <CardActions>
-        <StyledLink to = "/all"> all</StyledLink>
-      </CardActions>
-      <CardActions>
-        <StyledLink to = "/all"> all</StyledLink>
-      </CardActions>
-      <CardActions>
-        <StyledLink to = "/all"> all</StyledLink>
-      </CardActions>
-
-      </CardContent>
-      
-    </Card>
+     <CardWraper>  
+      <Card className={classes.root}>
+          <CardContent>
+            <h3>Categories</h3>
+            {renderCategories(props.categories)}
+          </CardContent>  
+      </Card>
     </CardWraper>
   );
 }

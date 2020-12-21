@@ -7,11 +7,42 @@ const StyledAside = styled.aside`
     margin-left : 10px;
 `;
 
+
+
 function Aside() {
+
+    const [categories,setCategories] = React.useState([{ "category_id": 0,"category_name": "all"}]);
+
+    React.useEffect(()=>{
+        fetch("http://localhost:8080/category/getCategoryNames",{
+            method : "GET",
+            credentials: "same-origin",
+        })
+        .then((response)=>{
+            return response.json();
+        })
+        .then((data)=>{
+            if(data.status){
+                setCategories((initialState)=>{
+                   
+                    return [...initialState , ...data.data];
+                })
+               
+            }
+            else{
+                throw Error("couldn't get categories");
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+
+    },[]);
     return (
         <StyledAside>
-            <AsideCard/>
-
+            <AsideCard 
+                categories = {categories}
+            />
         </StyledAside>
     )
 }

@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from "styled-components"; 
 import {Link} from "react-router-dom";
+import {useSelector,useDispatch} from "react-redux";
+import Button from '@material-ui/core/Button';
+import {setLogin}  from "../Login/Login.action"
 const NavbarStyle = styled.nav`
     width:90%;
     max-width : 100%;
@@ -40,6 +43,36 @@ export const LinkStyle = styled(Link)`
 `;
 
 function NavBar() {
+    const dispatch = useDispatch();
+    const login = useSelector((state)=>{
+        return {
+             isLoggedIn : state.login.isLoggedIn,
+             userName : state.login.userName
+         }
+     });
+
+    function handleLogout(e){
+        fetch("http://localhost:8080/logout",{
+            method : "get",
+            credentials: "same-origin"
+        })
+        .then((response)=>{
+            return response.json();
+        })
+        .then((data)=>{
+            if(data.status){
+                dispatch(setLogin({isLoggedIn : false ,userName : null}));
+                alert("successfully logged out");
+            }
+            else{
+                throw new Error("couldn't logout");
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    } 
+
     return (
         <NavbarStyle>
             <UnListStyle>
@@ -47,19 +80,24 @@ function NavBar() {
                     <LinkStyle to = "/">Home</LinkStyle>
                 </ListStyle>
                 <ListStyle>
-                    
-                    <LinkStyle to = "/about">About</LinkStyle>
-
-                </ListStyle>
-                <ListStyle>
                     <LinkStyle to = "/login">Login</LinkStyle>
                 </ListStyle>
                 <ListStyle>
                     <LinkStyle to = "/register">Register</LinkStyle>
                 </ListStyle>
-                <ListStyle>
-                    <LinkStyle to = "/logout">Logout</LinkStyle>
-                </ListStyle>
+                { login.isLoggedIn &&
+                    <ListStyle>
+                        <Button variant="contained" color="primary" onClick = {handleLogout}>
+                            logout
+                        </Button>
+                    </ListStyle>
+                }
+                {
+                    login.isLoggedIn &&
+                    <ListStyle>
+                        <LinkStyle to = "/">{login.userName}</LinkStyle>
+                    </ListStyle>
+                }
             </UnListStyle>
         
         </NavbarStyle>

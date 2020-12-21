@@ -9,18 +9,19 @@ module.exports.register = (req,res)=>{
     const  password  = req.body.password;
     bcrypt.hash(password,10)
     .then((hash)=>{
+      
         return insertUser(req.body,hash);
     })
     .then((result)=>{
         return createToken(req.body.userName);
     })
-    .then((token)=>{
+    .then((data)=>{
         try{
-            res.cookie('token',token,{
+            res.cookie('token',data.token,{
                 httpOnly:true,
                 maxAge:1000*60*60*24 
             })
-            res.status(200).json({status:true});
+            res.status(200).json({status:true , data : data.userName});
         }
         catch(error){
             res.res.status(400).json({ status:false , message : "please try again" });
@@ -42,13 +43,15 @@ module.exports.login = (req,res)=>{
         else
             throw new Error("password: incorrect password");
     })
-    .then((token)=>{
+    .then((data)=>{
         try{
-            res.cookie("token",token,{
+            res.cookie("token",data.token,{
                 httpOnly:true,
                 maxAge:1000*60*60*24
+               
             })
-            res.status(200).json({status:true});
+            
+            res.status(200).json({status:true , data:data.userName});
         }
         catch(e){
             res.status(400).json({status:false,message:"please try again"});
@@ -65,7 +68,7 @@ module.exports.isAuthenticated = (req,res)=>{
     if(cookies.token){
         verifyToken(cookies.token)
         .then((decoded)=>{
-            res.status(200).json({status : true});
+            res.status(200).json({status : true ,data : decoded});
         })
         .catch((err)=>{
             res.status(400).json({status : false});
@@ -75,3 +78,18 @@ module.exports.isAuthenticated = (req,res)=>{
         res.status(400).json({status : false});
     }
 }
+
+module.exports.logout = (req,res)=>{
+    try{
+        res.cookie("token","",{
+            httpOnly:true,
+            maxAge:1  
+        })
+
+        res.status(200).json({status : true});
+    }
+    catch(e){
+        res.status(400).json({status : false});
+    }
+
+} 

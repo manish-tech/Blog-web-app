@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createGlobalStyle} from 'styled-components';
+import {Provider} from "react-redux"
+import store from "./Redux/store";
+import Appcontroller from "./App.controller"
 const GlobalCss = createGlobalStyle`
   body,html{
     margin:0;
@@ -19,7 +21,9 @@ const GlobalCss = createGlobalStyle`
 ReactDOM.render(
   <React.StrictMode>
     <GlobalCss/>
-    <App />
+    <Provider store = {store}>
+      <Appcontroller />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

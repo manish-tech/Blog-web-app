@@ -8,7 +8,12 @@ const handleSubmitComment = (req,res)=>{
         return setComment(req.body);
     })
     .then((result)=>{
-        res.status(200).json({status : true})
+        
+        return getComments({postId : req.body.postId})   
+    })
+    .then((result)=>{
+        console.log(result.results);
+        res.status(200).json({status : true , data : result.results});
     })
     .catch((errorMessage)=>{
         res.status(400).json({status : false , message : errorMessage})

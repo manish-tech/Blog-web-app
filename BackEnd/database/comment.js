@@ -11,7 +11,9 @@ const setComment = (data)=>{
                 values(${userName},${postId},current_timestamp,${content});
              `;
             connection.query(query,(error,results,fields)=>{
+                
                 if(!error){
+                    
                     resolve({results,fields});
                 }
                 else{
@@ -29,12 +31,10 @@ const getComments = (data)=>{
     return(
         new Promise((resolve,reject)=>{
             const postId = connection.escape(parseInt(data.postId));
-            const offset = connection.escape(parseInt(data.offset));
-
+            
             const query = `
                 select * from comment
                 where post_id = ${postId}
-                limit 10 offset ${offset*10}
             `;
 
             connection.query(query,(error,results,fields)=>{

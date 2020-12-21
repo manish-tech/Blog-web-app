@@ -1,8 +1,8 @@
 import React from 'react'
-import Aside from '../Aside/Aside'
-import Main from '../Main/Main'
+import Aside from '../Aside/Aside.controler'
+import Main from '../Main/Main.controller'
 import styled from "styled-components";
-import {Link} from "react-router-dom"
+import {Link, Route } from "react-router-dom"
 
 const Section = styled.section`
     max-width : 100%;
@@ -21,6 +21,8 @@ const BackGroundImage = styled.div`
     align-items:center;
 `
 const StyledH1 = styled.h1`
+    font-size: 1.5rem;
+    font-family :  'Ubuntu', sans-serif;
     color : white;
 `
 
@@ -61,10 +63,11 @@ function Container() {
                 <StyledH1>Share your knowledge to the world....</StyledH1>
                 <StyledLink to = "/compose">compose</StyledLink>
             </BackGroundImage>
-            <SubContainer>
-                <Main/>
-                <Aside/>
-            </SubContainer>
+
+                <SubContainer>            
+                    <Main/>
+                    <Aside/>
+                </SubContainer>
         </Section>
     )
 }
