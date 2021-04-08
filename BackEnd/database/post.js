@@ -1,17 +1,21 @@
 const connection = require("./db");
 
-const getAllPosts = ()=>{
-   
+const getAllPosts = ({pageNumber})=>{
+    let offset = 0;
+    const limit = 3;
+    if(pageNumber > 0){
+        offset = pageNumber*limit;
+    }
     return(
         new Promise((resolve,reject)=>{
+            //frontend can know atleast 1 post is left so,limit + 1  
+            let query =`select post_id ,title , post_date , user_name , category_id , substring(content,1,100) as content 
+                        from post 
+                        limit ${limit + 1} offset ${offset};`;
             
-           
-            const query =  `select post_id ,title , post_date , user_name , category_id , category_name , substring(content,1,100) as content
-                            from post natural join category 
-                            where post.category_id = category.category_id`;
-                                          
             connection.query(query,(error,results,fields)=>{
                 if(!error){
+                    results.push(limit+1);
                     resolve({results,fields});
                 }
                 else{
@@ -48,6 +52,12 @@ const setPost = (data)=>{
 module.exports.setPost = setPost;
 
 const getCategoryPosts = (data)=>{
+    const pageNumber = parseInt(data.pageNumber);
+    let offset = 0;
+    const limit = 3;
+    if(pageNumber > 0){
+        offset = pageNumber*limit;
+    }
     return(
         new Promise((resolve,reject)=>{
             
@@ -56,10 +66,12 @@ const getCategoryPosts = (data)=>{
             select post_id ,title , post_date , user_name , substring(content,1,100) as content 
             from post 
             where category_id = ${categoryId}
+            limit ${limit+1} offset ${offset}
             `;
 
             connection.query(query,(error,results,fields)=>{
                 if(!error){
+                    results.push(limit+1); 
                     resolve({results,fields});
                 }
 
@@ -86,6 +98,7 @@ const getOnePost = (data)=>{
 
             connection.query(query,(error,results,fields)=>{
                 if(!error){
+                    
                     resolve({results,fields});
                 }
                 else{

@@ -1,59 +1,57 @@
-import React from 'react';
-import styled from "styled-components"; 
+import React from "react";
+import styled from "styled-components";
 import NavBar from "../navigation/NavBar.js";
 
 const HeaderStyle = styled.header`
-    position:fixed;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background-color:#f4f4f2;
-    height:fit-content;
-    width:100%;
-    top:0;
-    z-index : 10;
-    opacity : 1;
-    max-width : 100%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f4f2;
+  height: fit-content;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  opacity: 1;
+  max-width: 100%;
 
-    @media screen and (max-width: 900px) {
-           
-            display : flex;
-            flex-direction : column;
-            justify-content : center;
-            align-items : center;
-    }
+  @media screen and (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const IconWrapper = styled.div`
-    display : flex;
-    justify-content : center;
-    align-items : center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Paragraph = styled.p`
-    font-size:3rem;
-    font-family :  'Ubuntu', sans-serif;
-    font-weight:bold;
-    margin:0;
+  font-size: 3rem;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+  margin: 0;
 `;
-export const Image = styled.img.attrs((props)=>{
-    return(
-        {
-            src:"./icon.png"
-        }
-    )
+export const Image = styled.img.attrs((props) => {
+  return {
+    src: "./icon.png",
+  };
 })`
-    height:6rem;
+  height: 6rem;
 `;
+
 function Header() {
-    return (
-        <HeaderStyle>
-            <IconWrapper>
-                <Image />
-                <Paragraph>Blog</Paragraph> 
-            </IconWrapper>
-            <NavBar/>
-        </HeaderStyle>
-    )
+  return (
+    <HeaderStyle>
+      <IconWrapper>
+        <Image />
+        <Paragraph>Blog</Paragraph>
+      </IconWrapper>
+      <NavBar />
+    </HeaderStyle>
+  );
 }
 
-export default Header
+export default Header;

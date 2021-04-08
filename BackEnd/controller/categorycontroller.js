@@ -2,11 +2,14 @@ const e = require("express");
 const {getAllPosts }= require("../database/post");
 const {getCategoryPosts} = require("../database/post");
 const {getCategoryNames} = require("../database/category");
+
 const handleGetPosts = (req,res)=>{
     const categoryParameter = req.params.category;
+    const pageNumber = parseInt(req.query.pageNumber);
+
     if(categoryParameter == "all"){
      
-        getAllPosts()
+        getAllPosts({pageNumber})
         .then((result)=>{
             res.status(200).json({status:true , data : result.results});
         })

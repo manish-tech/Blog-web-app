@@ -1,17 +1,18 @@
 import React from "react";
-import Header from "./components/Header/Header"
-import {BrowserRouter ,Switch , Route , Redirect} from "react-router-dom";
+import Header from "./components/Header/Header";
+import { BrowserRouter } from "react-router-dom";
 import Routes from "./components/Routes/Routes";
-
+import { PaginationContext } from "./components/Pagination/PaginationContext";
 function App() {
   return (
-    <div className="App"  >
-    <BrowserRouter>
-      <Header/>
-      <Routes/>
-    </BrowserRouter>
-    
-    </div>
+    <React.StrictMode>
+      <PaginationContext>
+        <BrowserRouter>
+          <Header />
+          <Routes />
+        </BrowserRouter>
+      </PaginationContext>
+    </React.StrictMode>
   );
 }
 

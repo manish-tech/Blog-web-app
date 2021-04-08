@@ -11,6 +11,7 @@ const handleComposePost = (req,res)=>{
         res.status(200).json({status : true , message : "succesfully submitted the post"});
     })
     .catch((errorMessage)=>{
+        console.log(errorMessage);
         res.status(400).json({status : false , message : errorMessage});
     })
 }
