@@ -9,21 +9,7 @@ function Paginationcontroller() {
     isRightDissabled,
     setPagenumber,
     setLeftDissabled,
-    setRightDissabled,
   } = useContext(PageContext);
-
-  async function getPosts(){
-
-   
-    try{
-      const response = await fetch("https://api.github.com/users/defunkt");
-      const data = await response.json();
-      console.log(data);
-    } 
-    catch(e){
-      //console.log(e);
-    }
-  }
 
   function handleLeftClick(event) {
     setPagenumber((prevPageNumber) => {
@@ -44,8 +30,6 @@ function Paginationcontroller() {
       const pageNumber = prevPageNumber + 1;
       return pageNumber;
     });
-
-    //getPosts();
   }
 
   return (

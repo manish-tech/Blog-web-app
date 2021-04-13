@@ -5,16 +5,12 @@ import { Provider } from "react-redux";
 import store from "./Redux/store";
 import Appcontroller from "./App.controller";
 const GlobalCss = createGlobalStyle`
-  body,html{
-    margin:0;
-    width:100%;
-    font-family :  'Ubuntu', sans-serif;
-    
-  }
   *{
-    box-sizing:content-box;
-  }  
-
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Ubuntu", sans-serif;
+  }
 `;
 
 ReactDOM.render(
@@ -26,5 +22,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-

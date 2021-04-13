@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: 0,
   },
   bullet: {
     display: "inline-block",

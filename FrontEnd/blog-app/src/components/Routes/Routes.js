@@ -1,7 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Container from "../Container/Container";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 import NotLogin from "../NotLogin";
 import Compose from "../Compose/Compose";

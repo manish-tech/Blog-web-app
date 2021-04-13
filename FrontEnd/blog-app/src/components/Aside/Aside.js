@@ -3,13 +3,15 @@ import styled from "styled-components";
 import AsideCard from "../Card/AsideCard";
 
 const StyledAside = styled.aside`
-  position: relative;
-  right:0px;
-  width: 30%;
-  margin-left: 10px;
+  width: 90%;
+  @media screen and (min-width: 900px) {
+    width: 20%;
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+    
+  }
 `;
-
-
 
 function Aside() {
   const [categories, setCategories] = React.useState([

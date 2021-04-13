@@ -2,14 +2,13 @@ import React from "react";
 import Aside from "../Aside/Aside.controler";
 import Main from "../Main/Main.controller";
 import styled from "styled-components";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Section = styled.section`
   max-width: 100%;
 `;
 
 const BackGroundImage = styled.div`
-  /* background-image : url("./blue-background.jpg"); */
   background-color: #764abc;
   background-size: 100% 100%;
   height: 55vh;
@@ -23,6 +22,9 @@ const StyledH1 = styled.h1`
   font-size: 1.5rem;
   font-family: "Ubuntu", sans-serif;
   color: white;
+  width: 90%;
+  text-align: center;
+  margin-bottom: 0.5em;
 `;
 
 const StyledLink = styled(Link)`
@@ -45,16 +47,21 @@ const StyledLink = styled(Link)`
 `;
 
 const SubContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
-  max-width: 90%;
-  margin: 2em auto;
-  height: 100vh;
   position: relative;
-  @media screen and (max-width: 900px) {
-    position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  margin: auto;
+  height: 100%;
+  @media screen and (min-width: 900px) {
+    width: 100%;
+    margin: 2em auto;
     display: flex;
-    
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
   }
 `;
 

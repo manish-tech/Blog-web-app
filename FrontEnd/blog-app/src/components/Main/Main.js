@@ -4,8 +4,12 @@ import MainCard from "../Card/MainCard";
 import Pagnition from "../Pagination/Pagination.controller";
 import { PageContext } from "../Pagination/PaginationContext";
 const StyledMain = styled.main`
-  width: 100%;
+  width:90%;
+  @media screen and (min-width: 900px){
+    width:60%;
+  }
 `;
+
 
 function renderList(list, setRightDissabled,isRightDissabled) {
   const limit = list[list.length - 1];
