@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Post from "./Post";
 import NotLogin from "../NotLogin";
 import { useParams } from "react-router-dom";
+import { isLoggedIn } from "../Login/Login.action";
 
 function renderPost({
   login,
@@ -62,7 +63,6 @@ function Postcontroller() {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    // console.log(params.postId,login.userName,comment);
     fetch("http://localhost:8080/comment/submitComment", {
       method: "POST",
       body: JSON.stringify({
@@ -93,14 +93,6 @@ function Postcontroller() {
 
   return (
     <div>
-      {/* <Post 
-                handleCommentSubmit = {handleCommentSubmit }
-                comment = {comment}
-                setComment = {setComment}
-                post = {post}
-                commentList = {commentList}
-                setCommentList = {setCommentList}
-            /> */}
       {renderPost({
         login,
         handleCommentSubmit,

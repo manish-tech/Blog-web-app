@@ -24,7 +24,7 @@ const StyledH1 = styled.h1`
   color: white;
   width: 90%;
   text-align: center;
-  margin-bottom: 0.5em;
+  margin-bottom: 2em;
 `;
 
 const StyledLink = styled(Link)`

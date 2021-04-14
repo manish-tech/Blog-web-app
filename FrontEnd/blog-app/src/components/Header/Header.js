@@ -15,12 +15,6 @@ const HeaderStyle = styled.header`
   opacity: 1;
   max-width: 100%;
 
-  @media screen and (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const IconWrapper = styled.div`
@@ -50,6 +44,7 @@ function Header() {
         <Paragraph>Blog</Paragraph>
       </IconWrapper>
       <NavBar />
+      
     </HeaderStyle>
   );
 }

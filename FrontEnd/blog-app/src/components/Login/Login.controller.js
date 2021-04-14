@@ -5,7 +5,6 @@ import { useState } from "react";
 import { authenticate } from "./Login.action";
 import { useLocation } from "react-router-dom";
 function Logincontroller() {
-  console.log(useLocation());
   const pathName = useLocation().pathname;
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");

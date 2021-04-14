@@ -54,12 +54,12 @@ export const authenticate = (data, pathName) => {
 export const setLogin = (payload) => {
   return {
     type: SET_LOGIN,
-    payload: payload,
+    payload: payload
   };
 };
 
 export const getLogin = () => {
   return {
-    type: GET_LOGIN,
+    type: GET_LOGIN
   };
 };
