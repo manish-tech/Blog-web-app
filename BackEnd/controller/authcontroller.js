@@ -58,7 +58,6 @@ module.exports.login = (req,res)=>{
         }
     })
     .catch((errorMessage)=>{
-        console.log( {errorMessage});
         res.status(400).json({status:false,message:errorMessage.message || errorMessage});
     })
 };

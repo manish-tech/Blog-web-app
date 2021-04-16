@@ -10,16 +10,16 @@ import Burger from "./Burger";
 const NavbarStyle = styled.nav`
   width: 90%;
   max-width: 100%;
-  
+
   @media screen and (max-width: 900px) {
     position: absolute;
     z-index: 15;
     top: 0;
     right: 0;
     max-width: 40%;
-    height: 90vh;
+    height: 100vh;
     background-color: #dee4de;
-    opacity:0.9;
+    opacity: 0.95;
     display: ${({ isSideNavOn }) => {
       return isSideNavOn ? "block" : "none";
     }};
@@ -38,13 +38,25 @@ const UnListStyle = styled.ul`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: 50%;
-    height: 33%;
-    margin: auto;
+    width: 100%;
+    height: 100%;
   }
 `;
 
-const ListStyle = styled.li``;
+const ListStyle = styled.li`
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    &:hover {
+      background-color: #edefee;
+      color: black;
+    }
+  }
+`;
 
 export const LinkStyle = styled(Link)`
   font-family: "Ubuntu", sans-serif;
@@ -60,6 +72,14 @@ export const LinkStyle = styled(Link)`
   }
 
   border-radius: 47%;
+  @media screen and (max-width: 900px) {
+    border-radius: 3px;
+    display: block;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    margin: 0;
+  }
 `;
 
 function NavBar() {
@@ -73,7 +93,7 @@ function NavBar() {
   });
   const { setPagenumber, setLeftDissabled } = useContext(PageContext);
   function handleLogout(e) {
-    fetch("http://localhost:8080/logout", {
+    fetch("/logout", {
       method: "get",
       credentials: "same-origin",
     })
@@ -122,7 +142,7 @@ function NavBar() {
           </ListStyle>
           {login.isLoggedIn && (
             <ListStyle>
-              <Link to="/logout" style={{ textDecoration: "none" }}>
+              <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -130,9 +150,10 @@ function NavBar() {
                 >
                   logout
                 </Button>
-              </Link>
+              </LinkStyle>
             </ListStyle>
           )}
+
           {login.isLoggedIn && (
             <ListStyle>
               <LinkStyle to="/">{login.userName}</LinkStyle>

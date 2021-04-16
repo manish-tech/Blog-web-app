@@ -57,7 +57,7 @@ function Compose() {
   const [categories, setCategories] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/category/getCategoryNames", {
+    fetch("/category/getCategoryNames", {
       method: "GET",
       credentials: "same-origin",
     })
@@ -78,7 +78,7 @@ function Compose() {
 
   function handleSubmitPost(e) {
     e.preventDefault();
-    fetch("http://localhost:8080/compose/submitPost", {
+    fetch("/compose/submitPost", {
       method: "POST",
       body: JSON.stringify({
         userName: login.userName,
@@ -87,9 +87,7 @@ function Compose() {
         title: title,
       }),
       headers: {
-        "Content-Type": "application/json",
-
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/json"
       },
       credentials: "same-origin",
     })
@@ -98,7 +96,6 @@ function Compose() {
       })
       .then((data) => {
         if (data.status) {
-          console.log("success compose");
           alert("successfully posted");
         } else {
           throw new Error("couldn't post");

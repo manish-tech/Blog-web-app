@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Post from "./Post";
 import NotLogin from "../NotLogin";
 import { useParams } from "react-router-dom";
-import { isLoggedIn } from "../Login/Login.action";
+
 
 function renderPost({
   login,
@@ -42,7 +42,7 @@ function Postcontroller() {
   const [commentList, setCommentList] = React.useState([]);
   const [post, setPost] = React.useState({});
   React.useEffect(() => {
-    fetch("http://localhost:8080/post/" + params.postId, {
+    fetch("/post/" + params.postId, {
       method: "GET",
       credentials: "same-origin",
     })
@@ -63,7 +63,7 @@ function Postcontroller() {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/comment/submitComment", {
+    fetch("/comment/submitComment", {
       method: "POST",
       body: JSON.stringify({
         postId: params.postId,

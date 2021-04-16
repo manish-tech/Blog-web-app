@@ -19,7 +19,7 @@ function Aside() {
   ]);
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/category/getCategoryNames", {
+    fetch("/category/getCategoryNames", {
       method: "GET",
       credentials: "same-origin",
     })

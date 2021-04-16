@@ -2,7 +2,7 @@ import { SET_LOGIN, GET_LOGIN } from "./Login.types";
 
 export const isLoggedIn = () => {
   return (dispatch) => {
-    fetch("http://localhost:8080/isAuthenticated", {
+    fetch("/isAuthenticated", {
       method: "GET",
       credentials: "same-origin",
     })
@@ -24,18 +24,15 @@ export const isLoggedIn = () => {
 
 export const authenticate = (data, pathName) => {
   return (dispatch) => {
-    fetch("http://localhost:8080" + pathName, {
+    fetch(pathName, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/json"
       },
       credentials: "same-origin",
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((data) => {

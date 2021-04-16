@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register(props) {
   const classes = useStyles();
-  console.log({ props });
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "10em" }}>
       <CssBaseline />

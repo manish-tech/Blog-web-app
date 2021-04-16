@@ -12,7 +12,6 @@ const handleSubmitComment = (req,res)=>{
         return getComments({postId : req.body.postId})   
     })
     .then((result)=>{
-        console.log(result.results);
         res.status(200).json({status : true , data : result.results});
     })
     .catch((errorMessage)=>{

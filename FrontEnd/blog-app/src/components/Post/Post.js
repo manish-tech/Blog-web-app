@@ -40,7 +40,7 @@ function Post(props) {
   const params = useParams();
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/comment/comments/?postId=" + params.postId, {
+    fetch("/comment/comments/?postId=" + params.postId, {
       method: "GET",
       credentials: "same-origin",
     })
@@ -58,7 +58,6 @@ function Post(props) {
       });
   }, []);
 
-  console.log(props.commentList);
   return (
     <StyledPost key={props.post.user_name}>
       <CardContent>

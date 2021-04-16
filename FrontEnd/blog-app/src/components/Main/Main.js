@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import MainCard from "../Card/MainCard";
 import Pagnition from "../Pagination/Pagination.controller";
@@ -37,9 +37,9 @@ function Main({ categoryName, categoryId }) {
     let url;
     //initial render default is all
     if (categoryId === "" || categoryId === "0") {
-      url = `http://localhost:8080/category/all?pageNumber=${pageNumber}`;
+      url = `/category/all?pageNumber=${pageNumber}`;
     } else {
-      url = `http://localhost:8080/category/${categoryName}/?categoryId=${categoryId}&pageNumber=${pageNumber}`;
+      url = `/category/${categoryName}/?categoryId=${categoryId}&pageNumber=${pageNumber}`;
     }
     fetch(url, {
       method: "GET",

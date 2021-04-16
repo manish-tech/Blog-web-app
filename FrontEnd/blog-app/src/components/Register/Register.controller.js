@@ -15,9 +15,7 @@ function Registercontroller() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const data = { firstName, lastName, userName, password, description };
-    console.log(data);
     dispatch(authenticate(data, pathName));
   };
 
