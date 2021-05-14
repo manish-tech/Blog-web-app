@@ -23,7 +23,8 @@ function Routes() {
         </Route>
         <Route path="/register" component={Register} />
         <Route path="/compose">
-          {login.isLoggedIn ? <Compose /> : <NotLogin />}
+          {/* {login.isLoggedIn ? <Compose /> : <NotLogin />} */}
+          <Compose />
         </Route>
         <Route path="/category/:category" component={Container} />
         <Route path="/post/:postId" component={Post} />

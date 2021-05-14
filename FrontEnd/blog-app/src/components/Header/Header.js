@@ -23,7 +23,7 @@ const IconWrapper = styled.div`
   align-items: center;
 `;
 const Paragraph = styled.p`
-  font-size: 3rem;
+  font-size: 1.7rem;
   font-family: "Ubuntu", sans-serif;
   font-weight: bold;
   margin: 0;
@@ -33,7 +33,7 @@ export const Image = styled.img.attrs((props) => {
     src: "./icon.png",
   };
 })`
-  height: 6rem;
+  height: 4rem;
 `;
 
 function Header() {

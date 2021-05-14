@@ -8,6 +8,8 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { useSelector } from "react-redux";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import Editor from "./Editor/Editor";
+
 const ComposeWraper = styled.div`
   width: 90%;
   margin: auto;
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: "25ch",
+      maxWidth:"100%",
     },
   },
 
@@ -144,7 +146,7 @@ function Compose() {
         >
           <h3>Content</h3>
         </InputLabel>
-        <TextareaAutosize
+        {/* <TextareaAutosize
           style={{
             display: "block",
             width: "100%",
@@ -155,8 +157,8 @@ function Compose() {
           placeholder="Maximum 100 rows"
           value={content}
           onInput={(e) => setContent(e.target.value)}
-        />
-
+        /> */}
+        <Editor/>
         <Button type="submit" variant="contained" color="primary">
           submit
         </Button>

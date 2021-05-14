@@ -8,15 +8,24 @@ import { PageContext } from "../Pagination/PaginationContext";
 import Burger from "./Burger";
 
 const NavbarStyle = styled.nav`
-  width: 90%;
-  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const MainNavbarStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
+const SideNavbarStyle = styled.div`
+  width: fit-content;
   @media screen and (max-width: 900px) {
     position: absolute;
     z-index: 15;
     top: 0;
     right: 0;
-    max-width: 40%;
+    width: 40%;
     height: 100vh;
     background-color: #dee4de;
     opacity: 0.95;
@@ -39,7 +48,6 @@ const UnListStyle = styled.ul`
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    height: 100%;
   }
 `;
 
@@ -58,20 +66,36 @@ const ListStyle = styled.li`
   }
 `;
 
+const ProfileStyle = styled(ListStyle)`
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    width: 100%;
+    background-color: #6b6969;
+    border-radius: 5px;
+    color: white;
+  }
+`;
+
 export const LinkStyle = styled(Link)`
   font-family: "Ubuntu", sans-serif;
   text-decoration: none;
-  color: black;
+  text-align: center;
+  color: ${({ loginLink }) => (loginLink ? "white;" : "black")};
+  background-color: ${({ loginLink }) =>
+    loginLink ? "rgb(118 75 188);" : "inherit"};
   padding: 0.7em;
   margin-right: 2em;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   &:hover {
     background-color: #edefee;
     color: black;
   }
 
-  border-radius: 47%;
+  border-radius: 5px;
   @media screen and (max-width: 900px) {
     border-radius: 3px;
     display: block;
@@ -115,51 +139,60 @@ function NavBar() {
 
   return (
     <>
-      <Burger isSideNavOn={isSideNavOn} setSideNavOn={setSideNavOn} />
-      <NavbarStyle
-        isSideNavOn={isSideNavOn}
-        onClick={() => {
-          if (isSideNavOn) setSideNavOn(!isSideNavOn);
-        }}
-      >
-        <UnListStyle>
-          <ListStyle>
-            <LinkStyle
-              to="/"
-              onClick={() => {
-                setPagenumber(0);
-                setLeftDissabled(true);
-              }}
-            >
-              Home
-            </LinkStyle>
-          </ListStyle>
-          <ListStyle>
-            <LinkStyle to="/login">Login</LinkStyle>
-          </ListStyle>
-          <ListStyle>
-            <LinkStyle to="/register">Register</LinkStyle>
-          </ListStyle>
+      <NavbarStyle>
+        <MainNavbarStyle>
           {login.isLoggedIn && (
+            <ProfileStyle>
+              <LinkStyle to="/">{login.userName}manish</LinkStyle>
+            </ProfileStyle>
+          )}
+          <Burger isSideNavOn={isSideNavOn} setSideNavOn={setSideNavOn} />
+        </MainNavbarStyle>
+        <SideNavbarStyle
+          isSideNavOn={isSideNavOn}
+          onClick={() => {
+            if (isSideNavOn) setSideNavOn(!isSideNavOn);
+          }}
+        >
+          <UnListStyle>
             <ListStyle>
-              <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleLogout}
-                >
-                  logout
-                </Button>
+              <LinkStyle
+                to="/"
+                onClick={() => {
+                  setPagenumber(0);
+                  setLeftDissabled(true);
+                }}
+              >
+                Home
               </LinkStyle>
             </ListStyle>
-          )}
-
-          {login.isLoggedIn && (
-            <ListStyle>
-              <LinkStyle to="/">{login.userName}</LinkStyle>
-            </ListStyle>
-          )}
-        </UnListStyle>
+            {!login.isLoggedIn && (
+              <>
+                <ListStyle>
+                  <LinkStyle loginLink={true} to="/login">
+                    Login
+                  </LinkStyle>
+                </ListStyle>
+                <ListStyle>
+                  <LinkStyle to="/register">Register</LinkStyle>
+                </ListStyle>
+              </>
+            )}
+            {login.isLoggedIn && (
+              <ListStyle>
+                <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleLogout}
+                  >
+                    logout
+                  </Button>
+                </LinkStyle>
+              </ListStyle>
+            )}
+          </UnListStyle>
+        </SideNavbarStyle>
       </NavbarStyle>
     </>
   );

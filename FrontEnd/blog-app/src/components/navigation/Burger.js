@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 const StyledBurger = styled.div`
   display: none;
+  padding:1em;
+  padding-top:0;
   cursor: pointer;
   div {
     border-radius: 3px;
@@ -12,13 +14,17 @@ const StyledBurger = styled.div`
     background-color: black;
   }
   @media screen and (max-width: 900px) {
-    position: absolute;
-    top: ${({ isSideNavOn }) => {
-      return isSideNavOn ? "2px" : "2.5em";
+    
+    display:block; 
+    position : ${({ isSideNavOn }) => {
+      return isSideNavOn ? "absolute" : "static";
     }};
-    right: 0;
-    display: block;
-    margin-right: 0.3em;
+    top : ${({ isSideNavOn }) => {
+      return isSideNavOn ? "2px" : "none";
+    }};
+    right : ${({ isSideNavOn }) => {
+      return isSideNavOn ? "2px" : "none";
+    }};
     z-index: 20;
   }
 `;

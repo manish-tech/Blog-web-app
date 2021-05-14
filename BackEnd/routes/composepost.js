@@ -4,5 +4,4 @@ const {handleComposePost} = require("../controller/composecontroler");
 
 router.get("/isAuthenticated",isAuthenticated);
 router.post("/submitPost",handleComposePost);
-
 module.exports = router;
