@@ -11,8 +11,10 @@ const composepost = require("./routes/composepost");
 const category = require("./routes/category");
 const post = require("./routes/post");
 const comment = require("./routes/comment");
+const search = require("./routes/search");
 const cors = require('cors');
 const path = require("path");
+
 
 app.use(express.static(path.join(__dirname ,'build')));
 app.use(cors());
@@ -24,6 +26,8 @@ app.use("/compose",composepost);
 app.use("/category",category);
 app.use("/post",post);
 app.use("/comment",comment);
+app.use("/search",search);
+
 
 const PORT = "8080";
 const HOST = "localhost";

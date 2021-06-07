@@ -113,3 +113,26 @@ const getOnePost = (data)=>{
 }
 
 module.exports.getOnePost = getOnePost;
+
+
+const searchFirst = (title)=>{
+    return(
+        new Promise((resolve,reject)=>{
+            const query = `select title ,post_id
+                           from post
+                           where title LIKE '%${title}%'
+                           limit 5    
+                            `
+            connection.query(query,(error,results,fields)=>{
+                if(!error){
+                    resolve({results,fields});
+                }
+                else{
+                    reject(error.sqlMessage);
+                }
+            })
+        })
+    )
+}
+
+module.exports.searchFirst = searchFirst;

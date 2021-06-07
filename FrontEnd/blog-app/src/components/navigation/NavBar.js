@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import { setLogin } from "../Login/Login.action";
 import { PageContext } from "../Pagination/PaginationContext";
 import Burger from "./Burger";
+import Search from "./Search/Search";
 
 const NavbarStyle = styled.nav`
   display: flex;
@@ -52,6 +53,9 @@ const UnListStyle = styled.ul`
 `;
 
 const ListStyle = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   @media screen and (max-width: 900px) {
     width: 100%;
     height: 100%;
@@ -71,18 +75,18 @@ const ProfileStyle = styled(ListStyle)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: fit-content;
   a {
-    width: 100%;
     background-color: #6b6969;
     border-radius: 5px;
     color: white;
+    width:100%;
   }
 `;
 
 export const LinkStyle = styled(Link)`
   font-family: "Ubuntu", sans-serif;
   text-decoration: none;
-  text-align: center;
   color: ${({ loginLink }) => (loginLink ? "white;" : "black")};
   background-color: ${({ loginLink }) =>
     loginLink ? "rgb(118 75 188);" : "inherit"};
@@ -116,6 +120,7 @@ function NavBar() {
     };
   });
   const { setPagenumber, setLeftDissabled } = useContext(PageContext);
+  
   function handleLogout(e) {
     fetch("/logout", {
       method: "get",
@@ -141,11 +146,13 @@ function NavBar() {
     <>
       <NavbarStyle>
         <MainNavbarStyle>
-          {login.isLoggedIn && (
+
+          <Search/>
+          {/* {login.isLoggedIn && ( */}
             <ProfileStyle>
               <LinkStyle to="/">{login.userName}manish</LinkStyle>
             </ProfileStyle>
-          )}
+          {/* )} */}
           <Burger isSideNavOn={isSideNavOn} setSideNavOn={setSideNavOn} />
         </MainNavbarStyle>
         <SideNavbarStyle
@@ -166,7 +173,7 @@ function NavBar() {
                 Home
               </LinkStyle>
             </ListStyle>
-            {!login.isLoggedIn && (
+            {/* {!login.isLoggedIn && (
               <>
                 <ListStyle>
                   <LinkStyle loginLink={true} to="/login">
@@ -177,8 +184,8 @@ function NavBar() {
                   <LinkStyle to="/register">Register</LinkStyle>
                 </ListStyle>
               </>
-            )}
-            {login.isLoggedIn && (
+            )} */}
+            {/* {login.isLoggedIn && ( */}
               <ListStyle>
                 <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
                   <Button
@@ -190,7 +197,7 @@ function NavBar() {
                   </Button>
                 </LinkStyle>
               </ListStyle>
-            )}
+            {/* )} */}
           </UnListStyle>
         </SideNavbarStyle>
       </NavbarStyle>
