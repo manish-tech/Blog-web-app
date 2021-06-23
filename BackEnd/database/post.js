@@ -28,6 +28,7 @@ const getAllPosts = ({pageNumber})=>{
 module.exports.getAllPosts = getAllPosts;
 
 const setPost = (data)=>{
+
     return(
         new Promise((resolve,reject)=>{
             const title = connection.escape(data.title);
@@ -115,19 +116,37 @@ const getOnePost = (data)=>{
 module.exports.getOnePost = getOnePost;
 
 
-const searchFirst = (title)=>{
+const getSearchData = (title,pageNumber)=>{
+    let offset = 0;
+    let limit = 10;
+    //page number is string
+    if(pageNumber){
+        console.log(pageNumber);
+        pageNumber = parseInt(pageNumber);
+        console.log(pageNumber);
+        if(pageNumber > 0){
+            limit = 5;
+            offset = pageNumber*limit;
+            offset += 5;
+        }
+    }else{
+        limit = 5;
+    }
+
     return(
         new Promise((resolve,reject)=>{
-            const query = `select title ,post_id
-                           from post
-                           where title LIKE '%${title}%'
-                           limit 5    
+            
+            const query = ` select title ,post_id ${ pageNumber != undefined ? ",post_date , user_name , category_id , substring(content,1,100) as content": ""}
+                            from post
+                            where title LIKE ${connection.escape("%"+title+"%")}
+                            limit ${ limit } offset ${ offset }   
                             `
             connection.query(query,(error,results,fields)=>{
                 if(!error){
-                    resolve({results,fields});
+                    resolve({results,fields,limit});
                 }
                 else{
+                    
                     reject(error.sqlMessage);
                 }
             })
@@ -135,4 +154,4 @@ const searchFirst = (title)=>{
     )
 }
 
-module.exports.searchFirst = searchFirst;
+module.exports.getSearchData = getSearchData;

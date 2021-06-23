@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
-import store from "./Redux/store";
+import store from "./redux/store";
 import Appcontroller from "./App.controller";
 const GlobalCss = createGlobalStyle`
   *{

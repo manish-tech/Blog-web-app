@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
-import { setLogin } from "../Login/Login.action";
-import { PageContext } from "../Pagination/PaginationContext";
+import { setLogin } from "../login/Login.action";
+import { PageContext } from "../pagination/PaginationContext";
 import Burger from "./Burger";
-import Search from "./Search/Search";
+import Search from "./search/Search";
 
 const NavbarStyle = styled.nav`
   display: flex;
@@ -15,7 +15,7 @@ const NavbarStyle = styled.nav`
 `;
 const MainNavbarStyle = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -33,6 +33,10 @@ const SideNavbarStyle = styled.div`
     display: ${({ isSideNavOn }) => {
       return isSideNavOn ? "block" : "none";
     }};
+    li{
+      border-bottom: solid;
+      border-width: 2px;
+    }
   }
 `;
 
@@ -58,7 +62,6 @@ const ListStyle = styled.li`
   align-items: center;
   @media screen and (max-width: 900px) {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,7 +83,7 @@ const ProfileStyle = styled(ListStyle)`
     background-color: #6b6969;
     border-radius: 5px;
     color: white;
-    width:100%;
+    width: 100%;
   }
 `;
 
@@ -120,7 +123,7 @@ function NavBar() {
     };
   });
   const { setPagenumber, setLeftDissabled } = useContext(PageContext);
-  
+
   function handleLogout(e) {
     fetch("/logout", {
       method: "get",
@@ -146,12 +149,11 @@ function NavBar() {
     <>
       <NavbarStyle>
         <MainNavbarStyle>
-
-          <Search/>
+          <Search />
           {/* {login.isLoggedIn && ( */}
-            <ProfileStyle>
-              <LinkStyle to="/">{login.userName}manish</LinkStyle>
-            </ProfileStyle>
+          <ProfileStyle>
+            <LinkStyle to="/">{login.userName}m</LinkStyle>
+          </ProfileStyle>
           {/* )} */}
           <Burger isSideNavOn={isSideNavOn} setSideNavOn={setSideNavOn} />
         </MainNavbarStyle>
@@ -186,17 +188,17 @@ function NavBar() {
               </>
             )} */}
             {/* {login.isLoggedIn && ( */}
-              <ListStyle>
-                <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleLogout}
-                  >
-                    logout
-                  </Button>
-                </LinkStyle>
-              </ListStyle>
+            <ListStyle>
+              <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleLogout}
+                >
+                  logout
+                </Button>
+              </LinkStyle>
+            </ListStyle>
             {/* )} */}
           </UnListStyle>
         </SideNavbarStyle>

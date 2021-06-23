@@ -1,14 +1,21 @@
-const {searchFirst} = require("../database/post");
-const handleSearchFirstSome = async (req,res)=>{
+const {getSearchData} = require("../database/post");
+
+const handleSearch = async (req,res)=>{
+
     try{
-        const title = req.query.q;
-        const result = await searchFirst(title);
-        res.status(200).json({status : true , data : result.results});
+        const { q , pageNumber } = req.query;
+        const { results , limit } = await getSearchData(q,pageNumber);
+        const data = {
+                        results,
+                        limit
+                    }
+        res.status(200).json({status : true ,data : data });
     }
     catch(e){
         res.status(500).json({status : false , message : "internal server error"});
-    } 
+    }
+    
 }
 
-module.exports.handleSearchFirstSome = handleSearchFirstSome;
+module.exports.handleSearch = handleSearch;
 
