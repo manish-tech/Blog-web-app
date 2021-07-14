@@ -2,11 +2,25 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
 import { setLogin } from "../login/Login.action";
 import { PageContext } from "../pagination/PaginationContext";
 import Burger from "./Burger";
 import Search from "./search/Search";
+import Notification from "./notification/Notification";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { makeStyles } from "@material-ui/core/styles";
+import { useMediaQuery } from "react-responsive";
+import SearchIcon from "@material-ui/icons/Search";
+import IconButton from "@material-ui/core/IconButton";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 const NavbarStyle = styled.nav`
   display: flex;
@@ -15,7 +29,7 @@ const NavbarStyle = styled.nav`
 `;
 const MainNavbarStyle = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -26,17 +40,12 @@ const SideNavbarStyle = styled.div`
     z-index: 15;
     top: 0;
     right: 0;
-    width: 40%;
-    height: 100vh;
+    width: 50%;
     background-color: #dee4de;
     opacity: 0.95;
     display: ${({ isSideNavOn }) => {
       return isSideNavOn ? "block" : "none";
     }};
-    li{
-      border-bottom: solid;
-      border-width: 2px;
-    }
   }
 `;
 
@@ -60,12 +69,13 @@ const ListStyle = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
   @media screen and (max-width: 900px) {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-end;
     &:hover {
       background-color: #edefee;
       color: black;
@@ -73,32 +83,18 @@ const ListStyle = styled.li`
   }
 `;
 
-const ProfileStyle = styled(ListStyle)`
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: fit-content;
-  a {
-    background-color: #6b6969;
-    border-radius: 5px;
-    color: white;
-    width: 100%;
-  }
-`;
-
 export const LinkStyle = styled(Link)`
   font-family: "Ubuntu", sans-serif;
   text-decoration: none;
-  color: ${({ loginLink }) => (loginLink ? "white;" : "black")};
-  background-color: ${({ loginLink }) =>
-    loginLink ? "rgb(118 75 188);" : "inherit"};
+  color: ${({ loginlink }) => (loginlink ? "white;" : "black")};
+  background-color: ${({ loginlink }) =>
+    loginlink ? "rgb(118 75 188);" : "inherit"};
   padding: 0.7em;
-  margin-right: 2em;
   font-size: 1rem;
   font-weight: bold;
   &:hover {
-    background-color: #edefee;
+    background-color: ${({ loginlink }) =>
+      loginlink ? "rgb(118 75 188);" : "#edefee"};
     color: black;
   }
 
@@ -106,20 +102,26 @@ export const LinkStyle = styled(Link)`
   @media screen and (max-width: 900px) {
     border-radius: 3px;
     display: block;
-    width: 80%;
-    height: 80%;
     text-align: center;
     margin: 0;
   }
 `;
 
+const MainNavbarBoxes = styled.div`
+  margin-right: 1em;
+`;
 function NavBar() {
+  const classes = useStyles();
   const [isSideNavOn, setSideNavOn] = useState(false);
+  const [toggleSearch, setToggleSearch] = useState(false);
+
   const dispatch = useDispatch();
+  const isPhone = useMediaQuery({ query: "(max-width: 450px)" });
   const login = useSelector((state) => {
     return {
       isLoggedIn: state.login.isLoggedIn,
       userName: state.login.userName,
+      url: state.login.url,
     };
   });
   const { setPagenumber, setLeftDissabled } = useContext(PageContext);
@@ -149,12 +151,37 @@ function NavBar() {
     <>
       <NavbarStyle>
         <MainNavbarStyle>
-          <Search />
-          {/* {login.isLoggedIn && ( */}
-          <ProfileStyle>
-            <LinkStyle to="/">{login.userName}m</LinkStyle>
-          </ProfileStyle>
-          {/* )} */}
+          <MainNavbarBoxes>
+            {!isPhone ? (
+              <Search />
+            ) : (
+              <>
+                <IconButton
+                  onClick={() => setToggleSearch(!toggleSearch)}
+                  size="medium"
+                >
+                  <SearchIcon />
+                </IconButton>
+                {toggleSearch && <Search />}
+              </>
+            )}
+          </MainNavbarBoxes>
+          <MainNavbarBoxes>
+            <Notification />
+          </MainNavbarBoxes>
+
+          {login.isLoggedIn && (
+            <MainNavbarBoxes>
+              <Link to="/">
+                <Avatar
+                  className={classes.small}
+                  style={{ margin: "0" }}
+                  src={login.url}
+                />
+              </Link>
+            </MainNavbarBoxes>
+          )}
+
           <Burger isSideNavOn={isSideNavOn} setSideNavOn={setSideNavOn} />
         </MainNavbarStyle>
         <SideNavbarStyle
@@ -175,10 +202,10 @@ function NavBar() {
                 Home
               </LinkStyle>
             </ListStyle>
-            {/* {!login.isLoggedIn && (
+            {!login.isLoggedIn && (
               <>
                 <ListStyle>
-                  <LinkStyle loginLink={true} to="/login">
+                  <LinkStyle loginlink="true" to="/login">
                     Login
                   </LinkStyle>
                 </ListStyle>
@@ -186,20 +213,23 @@ function NavBar() {
                   <LinkStyle to="/register">Register</LinkStyle>
                 </ListStyle>
               </>
-            )} */}
-            {/* {login.isLoggedIn && ( */}
-            <ListStyle>
-              <LinkStyle to="/logout" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
+            )}
+            {login.isLoggedIn && (
+              <ListStyle>
+                <LinkStyle
                   onClick={handleLogout}
+                  to="/logout"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  logout
-                </Button>
-              </LinkStyle>
-            </ListStyle>
-            {/* )} */}
+                  <ExitToAppIcon />
+                  <span>logout</span>
+                </LinkStyle>
+              </ListStyle>
+            )}
           </UnListStyle>
         </SideNavbarStyle>
       </NavbarStyle>

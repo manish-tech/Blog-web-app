@@ -66,6 +66,7 @@ export default function Login(props) {
             id="text"
             label="User name"
             name="userName"
+            placeholder = 'test1'
             value={props.userName}
             onInput={(e) => props.setUserName(e.target.value)}
             type="text"
@@ -78,6 +79,7 @@ export default function Login(props) {
             required
             fullWidth
             name="password"
+            placeholder = '1234'
             value={props.password}
             onInput={(e) => props.setPassword(e.target.value)}
             label="Password"

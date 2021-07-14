@@ -14,6 +14,15 @@ const SearchBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 450px) {
+    position: absolute;
+    width: 80%;
+    top:80%;
+    right: 0;
+    left: 8%;
+    background-color: #f1efef;
+    border-radius: 5px;
+  }
 `;
 
 const InputBox = styled.div`
@@ -111,7 +120,7 @@ export const searchReducer = (searchState, action) => {
         data: searchState.data,
         isLoading: true,
         error: false,
-        errorMessage: "",
+        errorMessage: ""
       };
 
     case ERROR:
@@ -152,6 +161,7 @@ export const searchReducer = (searchState, action) => {
             }
           }
         }
+        if(bottom === undefined) paddingBottom = searchState.paddingBottom;
         if(bottom){
           paddingBottom = searchState.paddingBottom + padding;
         }
@@ -160,7 +170,7 @@ export const searchReducer = (searchState, action) => {
             paddingBottom = 0;
           }
           else{
-            paddingBottom = searchState.paddingBottom - padding;
+              paddingBottom = searchState.paddingBottom - padding;
           }
         }
         
@@ -210,7 +220,7 @@ function Search() {
       const trimedQuery = query.trim();
       if (trimedQuery) {
         setResultsVisible(true);
-        const url = `http://localhost:8080/search/?q=${trimedQuery}`;
+        const url = `/search/?q=${trimedQuery}`;
         getData(dispatch, url);
         return;
       }

@@ -33,7 +33,7 @@ function Paginationcontroller() {
   }
 
   return (
-    <div>
+    <div style={{marginBottom:'1em'}}>
       <Pagination
         pageNumber={pageNumber}
         isLeftDissabled={isLeftDissabled}

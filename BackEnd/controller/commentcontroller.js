@@ -1,14 +1,12 @@
 const verifyToken = require("./jwt/verifytoken");
-const {setComment} = require("../database/comment");
-const {getComments} = require("../database/comment");
+const {setComment,getComments,setReply,getReplies} = require("../database/comment");
 
 const handleSubmitComment = (req,res)=>{
     verifyToken(req.cookies.token)
     .then((decoded)=>{
         return setComment(req.body);
     })
-    .then((result)=>{
-        
+    .then(()=>{
         return getComments({postId : req.body.postId})   
     })
     .then((result)=>{
@@ -36,3 +34,34 @@ const handleGetComments = (req,res)=>{
 }
 
 module.exports.handleGetComments = handleGetComments;
+
+const handleSubmitReply = async (req,res)=>{
+   
+    try{
+        const decoded = await verifyToken(req.cookies.token);
+        const {parentCommentId,userName,postId,content} = req.body;
+        const {results} = await setReply({parentCommentId,userName,postId,content});
+        res.status(200).json({status : true,data : results});
+    }
+
+    catch(error){
+        res.status(500).json({status : false});
+    }
+    
+}
+
+module.exports.handleSubmitReply = handleSubmitReply;
+
+const handleGetReplies = async (req,res)=>{
+    try{
+        const decoded = await verifyToken(req.cookies.token)
+        const {parentCommentId} = req.query;
+        const {results} = await getReplies({parentCommentId});
+        res.status(200).json({status : true , data : results});
+    }
+    catch(error){
+        res.status(400).json({status : false});
+    }
+}
+
+module.exports.handleGetReplies = handleGetReplies;

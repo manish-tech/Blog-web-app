@@ -1,4 +1,3 @@
-const e = require("express");
 const {getAllPosts }= require("../database/post");
 const {getCategoryPosts} = require("../database/post");
 const {getCategoryNames} = require("../database/category");

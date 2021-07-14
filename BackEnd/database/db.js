@@ -1,5 +1,6 @@
 const mysql = require("mysql");
-const connection =  mysql.createConnection({
+const pool =  mysql.createPool({
+                        connectionLimit : 10,
                         user : process.env.DB_USER,
                         host : process.env.HOST,
                         database : process.env.DB_NAME,
@@ -7,4 +8,4 @@ const connection =  mysql.createConnection({
                         dateStrings : true
                     });
 
-module.exports = connection;
+module.exports = pool;

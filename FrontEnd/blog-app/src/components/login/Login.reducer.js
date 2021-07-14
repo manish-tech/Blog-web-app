@@ -8,6 +8,7 @@ const loginReducer = (state = loginInitialState, action) => {
         ...state,
         isLoggedIn: action.payload.isLoggedIn,
         userName: action.payload.userName,
+        url:action.payload.url
       };
     case GET_LOGIN:
       return state;

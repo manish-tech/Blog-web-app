@@ -4,21 +4,27 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { useSelector } from "react-redux";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import Editor from "./Editor/Editor";
-
+import { EditorState, convertToRaw } from "draft-js";
+import Editor from "./reactDraftEditor/Editor";
+import { useState } from "react";
+import CardContent from "@material-ui/core/CardContent";
 const ComposeWraper = styled.div`
   width: 90%;
   margin: auto;
 `;
 
 const BackGround = styled.div`
-  height: 30vh;
+  height: 13vh;
 `;
 
+const H3 = styled.h3`
+  letter-spacing:0.1em;
+
+  
+`;
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -35,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
+
 function renderMenuItems(categories) {
   return categories.map((category) => {
     return (
@@ -46,7 +53,7 @@ function renderMenuItems(categories) {
 }
 
 function Compose() {
-  const login = useSelector((state) => {
+  const { userName } = useSelector((state) => {
     return {
       isLoggedIn: state.login.isLoggedIn,
       userName: state.login.userName,
@@ -55,8 +62,14 @@ function Compose() {
   const classes = useStyles();
   const [category, setCategory] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
+  const [headline, setHeadline] = React.useState("");
   const [categories, setCategories] = React.useState([]);
+  const [editorState, setEditorState] = useState(() => {
+    return EditorState.createEmpty();
+  });
+  const changeInEditorState = (newEditorState) => {
+    setEditorState(newEditorState);
+  };
 
   React.useEffect(() => {
     fetch("/category/getCategoryNames", {
@@ -80,13 +93,15 @@ function Compose() {
 
   function handleSubmitPost(e) {
     e.preventDefault();
+
     fetch("/compose/submitPost", {
       method: "POST",
       body: JSON.stringify({
-        userName: login.userName,
+        userName: userName,
         categoryId: category,
-        content: content,
+        content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
         title: title,
+        headline : headline
       }),
       headers: {
         "Content-Type": "application/json",
@@ -119,48 +134,66 @@ function Compose() {
         method="post"
         onSubmit={handleSubmitPost}
       >
-        <InputLabel style={{ display: "block" }} id="demo-simple-select-label">
-          <h3>Title</h3>
-        </InputLabel>
-        <TextField
-          style={{ display: "block" }}
-          id="standard-basic"
-          value={title}
-          onInput={(e) => setTitle(e.target.value)}
+        <CardContent style={{ width: "250px", }}>
+          <InputLabel
+            style={{ display: "block" }}
+            id="demo-simple-select-label"
+          >
+            <H3 >Title*</H3>
+          </InputLabel>
+          <TextField
+            style={{ display: "block" }}
+            value={title}
+            onInput={(e) => setTitle(e.target.value)}
+          />
+        </CardContent>
+
+        <CardContent style={{ width: "250px" }}>
+          <InputLabel
+            style={{ display: "block" }}
+            id="demo-simple-select-label"
+          >
+            <H3>Headline*</H3>
+          </InputLabel>
+          <TextField
+            style={{ display: "block" }}
+            value={headline}
+            onInput={(e) => setHeadline(e.target.value)}
+          />
+        </CardContent>
+        <CardContent style={{ width: "250px" }}>
+          <InputLabel
+            style={{ display: "block" }}
+            id="demo-simple-select-label"
+          >
+            <H3>Category*</H3>
+          </InputLabel>
+
+          <Select
+            style={{ display: "block", width: "100%" }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {renderMenuItems(categories)}
+          </Select>
+        </CardContent>
+        <CardContent>
+          <InputLabel
+            style={{ display: "block", marginTop: "2em" }}
+            id="demo-simple-select-label"
+          >
+            <H3>Content*</H3>
+          </InputLabel>
+        </CardContent>
+
+        <Editor
+          editorState={editorState}
+          changeInEditorState={changeInEditorState}
         />
-        <InputLabel style={{ display: "block" }} id="demo-simple-select-label">
-          <h3>Category</h3>
-        </InputLabel>
-        <Select
-          style={{ display: "block" }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          {renderMenuItems(categories)}
-        </Select>
-        <InputLabel
-          style={{ display: "block", marginTop: "2em" }}
-          id="demo-simple-select-label"
-        >
-          <h3>Content</h3>
-        </InputLabel>
-        {/* <TextareaAutosize
-          style={{
-            display: "block",
-            width: "100%",
-            height: "100vh",
-            marginTop: "2em",
-          }}
-          aria-label="maximum height"
-          placeholder="Maximum 100 rows"
-          value={content}
-          onInput={(e) => setContent(e.target.value)}
-        /> */}
-        <Editor />
         <Button type="submit" variant="contained" color="primary">
-          submit
+          publish
         </Button>
       </form>
     </ComposeWraper>

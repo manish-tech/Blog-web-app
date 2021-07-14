@@ -1,7 +1,8 @@
-import React from "react";
+import React ,{useContext}from "react";
 import styled from "styled-components";
 import NavBar from "../navigation/NavBar.js";
 import { Link } from "react-router-dom";
+import { PageContext } from "../pagination/PaginationContext";
 const HeaderStyle = styled.header`
   position: fixed;
   display: flex;
@@ -34,11 +35,19 @@ export const Img = styled.img`
 `;
 
 function Header() {
+  const { setPagenumber, setLeftDissabled } = useContext(PageContext);
   return (
     <HeaderStyle>
-      <Link to ="/" style = {{listStyle:"none",textDecoration:"none"}}>
+      <Link 
+      to ="/" 
+      style = {{listStyle:"none",textDecoration:"none"}}
+      onClick={() => {
+                  setPagenumber(0);
+                  setLeftDissabled(true);
+                }}
+      >
         <IconWrapper>
-          <Img src="./icon.png" />
+          <Img src="/icon.png" />
           <Paragraph>Blog</Paragraph>
         </IconWrapper>
       </Link>

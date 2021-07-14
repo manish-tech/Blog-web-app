@@ -12,7 +12,7 @@ export const isLoggedIn = () => {
       .then((data) => {
         if (data.status) {
           dispatch(
-            setLogin({ isLoggedIn: data.status, userName: data.data.userName })
+            setLogin({ isLoggedIn: data.status, userName: data.data.userName ,url : data.data.url})
           );
         } else throw new Error("status false");
       })
@@ -22,7 +22,7 @@ export const isLoggedIn = () => {
   };
 };
 
-export const authenticate = (data, pathName) => {
+export const authenticate = (data, pathName,succesOperation) => {
   return (dispatch) => {
     fetch(pathName, {
       method: "POST",
@@ -37,7 +37,9 @@ export const authenticate = (data, pathName) => {
       })
       .then((data) => {
         if (data.status) {
-          dispatch(setLogin({ isLoggedIn: data.status, userName: data.data }));
+          dispatch(setLogin({ isLoggedIn: data.status, userName: data.data.userName ,url : data.data.url}));
+          if(succesOperation && typeof(succesOperation) ==='function')
+            succesOperation();
           alert("success...");
         } else throw new Error("status false");
       })

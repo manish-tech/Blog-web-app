@@ -4,17 +4,19 @@ import useQuery from "../../hooks/useQuery";
 import MainCard from "../card/MainCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { initializeIntersectionObserver } from "./infiniteScroll";
+
 import {
   initialState,
   fetchData,
   searchReducer,
   FOUNDDATA,
 } from "../navigation/search/Search";
+
 import { useState } from "react";
 const SET_MAX_NO_OF_PAGES = "SET_MAX_NO_OF_PAGES";
 const RESET = "RESET";
 const RESULTSLIST = "RESULTS_LIST";
-
+const SET_BOTTOM_PADDING_TO_ZERO = 'SET_BOTTOM_PADDING_TO_ZERO';
 const moreSearchInitialState = {
   ...initialState,
   maxNoOfPages: Number.MAX_SAFE_INTEGER,
@@ -25,7 +27,7 @@ const moreSearchInitialState = {
 const MoreSearchResultsContainer = styled.div`
   max-width: 80%;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,10 +44,32 @@ function renderResults(data, topRef, bottomRef) {
   if (data) {
     const results = data.map((value, index) => {
       if (index === 0)
-        return <MainCard ref={topRef} key={value.post_id} item={value} />;
+        return( 
+          <div
+            ref={topRef}
+            key={value.post_id}
+          >
+         
+          <MainCard  item={value} />
+          </div>
+        );
       if (index === data.length - 1)
-        return <MainCard ref={bottomRef} key={value.post_id} item={value} />;
-      else return <MainCard key={value.post_id} item={value} />;
+        return (
+          <div
+            ref={bottomRef}
+            key={value.post_id}
+          >
+         
+          <MainCard   item={value} />
+          </div>
+        );
+      else return (
+        <div
+           key={value.post_id}
+        >
+        <MainCard item={value} />
+        </div>
+      );
     });
     return results;
   }
@@ -55,8 +79,9 @@ function getPadding(oneElement,resultList,limit){
   let height = oneElement.offsetHeight;
   let padding = 0;
   if(resultList){
-    if(resultList.length > limit){
+    if(resultList.length >  limit){
       padding = (resultList.length - limit)*height;
+      return padding;
     }
   }
   return padding;
@@ -74,7 +99,11 @@ function moreSearchResultsReducer(moreSearchState, action) {
       return {
         ...moreSearchInitialState,
       };
+    case SET_BOTTOM_PADDING_TO_ZERO : return{
+      moreSearchState,
+      paddingBottom:0
 
+    }
     default:
       return moreSearchState;
   }
@@ -96,6 +125,7 @@ function MoreSearchResults() {
   const query = useQuery().get("q") || "";
   const [topCardNode, setTopCardNode] = useState(null);
   const [bottomCardNode, setBottomCardNode] = useState(null);
+  
   const [result, dispatch] = useReducer(
     moreSearchResultsReducers,
     moreSearchInitialState
@@ -112,10 +142,16 @@ function MoreSearchResults() {
   
   function bottomScrolled(element) {
     
-    if(maxNoOfPages === 1) return;
-    if (indexOfListOfData.current + 1 > maxNoOfPages) return;
+    if(maxNoOfPages === 1) {
+      return
+    }
+    
+    if (indexOfListOfData.current + 1 > maxNoOfPages) {
+      return;
+    }
     else {
       indexOfListOfData.current++;
+      
       let resultsList = localStorage.getItem(RESULTSLIST);
       if (resultsList) {
         resultsList = JSON.parse(resultsList);
@@ -127,6 +163,7 @@ function MoreSearchResults() {
               data: {
                 data: resultsList[indexOfListOfData.current],
                 limit: limit,
+                //true = add padding , false = remove padding
                 padding : {
                   top : true,
                   bottom : false,
@@ -136,15 +173,19 @@ function MoreSearchResults() {
             },
           });
         } else {
-          const url = `http://localhost:8080/search/?q=${query}&pageNumber=${indexOfListOfData.current}`;
+          const url = `/search/?q=${query}&pageNumber=${indexOfListOfData.current}`;
           fetchData(dispatch, url, cachingData,element);
         }
       }
     }
+    
   }
 
   function topScrolled(element) {
-    
+   
+    if(maxNoOfPages === 1) {
+      return
+    }
     if (indexOfListOfData.current - 1  <  0) {
       return;
     }
@@ -172,6 +213,7 @@ function MoreSearchResults() {
         }
       })
     }
+   
   }
 
   function callback(entries, observer) {
@@ -181,12 +223,11 @@ function MoreSearchResults() {
       }
       if (element.target === topCardNode && element.isIntersecting) {
         topScrolled(element.target); 
-        console.log("t");
+    
       }
 
       if (element.target === bottomCardNode && element.isIntersecting) {
         bottomScrolled(element.target);
-        console.log("b");
       }
     });
   }
@@ -221,7 +262,6 @@ function MoreSearchResults() {
           },
         });
         
-        
         dispatch({
           type: FOUNDDATA,
           payload: {
@@ -235,11 +275,9 @@ function MoreSearchResults() {
             },
           },
         });
-
         return;
       }
       if (resultsList) {
-        console.log("cache")
         resultsList = JSON.parse(resultsList);
         if (resultsList.length >= 1) {
           const topData = resultsList[resultsList.length - 1];
@@ -288,7 +326,11 @@ function MoreSearchResults() {
   }
 
   useEffect(() => {
-    const url = `http://localhost:8080/search/?q=${query}&pageNumber=${0}`;
+    localStorage.removeItem(RESULTSLIST);
+  }, []);
+
+  useEffect(() => {
+    const url = `/search/?q=${query}&pageNumber=${0}`;
     fetchData(dispatch, url, cachingData);
     return () => {
       localStorage.removeItem(RESULTSLIST);
@@ -299,11 +341,17 @@ function MoreSearchResults() {
     };
   }, [query]);
 
+ 
+
   return (
-    <MoreSearchResultsContainer paddingTop = {paddingTop} paddingBottom = {paddingBottom}>
+    <MoreSearchResultsContainer 
+      paddingTop = {paddingTop} 
+      paddingBottom = {paddingBottom}
+    
+    >
       {renderResults(data, setTopCardNode, setBottomCardNode)}
       {result.isLoading && (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" ,marginBottom:"2em"}}>
           <CircularProgress />
         </div>
       )}

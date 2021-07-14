@@ -17,7 +17,7 @@ const StyledResults = styled.div`
 function getResults({ data, isLoading, error, errorMessage }, query) {
   if (isLoading) {
     return (
-      <StyledCard key="loading" style={{ padding: "2em" }}>
+      <StyledCard key="loading" style={{ padding: "2em" ,display:'flex',justifyContent:'center',alignItems:'center'}}>
         <CircularProgress />
       </StyledCard>
     );

@@ -1,20 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-
+import CloseIcon from '@material-ui/icons/Close';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 const StyledBurger = styled.div`
   display: none;
-  padding: 1em;
-  padding-top: 0;
+  padding: 0.5em;
+  padding-top: 0.2em;
   cursor: pointer;
-  div {
-    border-radius: 3px;
-    height: ${({ isSideNavOn }) => {
-      return isSideNavOn ? "10px" : "4px";
-    }};
-    width: 25px;
-    margin: 2px;
-    background-color: black;
-  }
   @media screen and (max-width: 900px) {
     display: block;
     position: ${({ isSideNavOn }) => {
@@ -39,13 +31,10 @@ function Burger({ isSideNavOn, setSideNavOn }) {
       }}
     >
       {!isSideNavOn ? (
-        <>
-          <div></div>
-          <div></div>
-          <div></div>
-        </>
-      ) : (
-        <div></div>
+        <MenuRoundedIcon fontSize='large' style = {{marginRight:'0.1em',height:'30px'}}/>  
+      ) : 
+      (
+        <CloseIcon fontSize='small'/>
       )}
     </StyledBurger>
   );

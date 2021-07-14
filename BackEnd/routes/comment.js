@@ -1,9 +1,11 @@
 const router = require("express").Router();
-const {handleSubmitComment} = require("../controller/commentcontroller");
-const {handleGetComments} = require("../controller/commentcontroller");
+const { handleSubmitComment ,handleGetComments,handleSubmitReply,handleGetReplies} = require("../controller/commentcontroller");
+
 
 router.get("/comments",handleGetComments);
 router.post("/submitComment",handleSubmitComment);
+router.post("/submitReply",handleSubmitReply);
+router.get("/replies",handleGetReplies);
 
 
 module.exports = router;

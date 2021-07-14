@@ -24,13 +24,14 @@ function Routes() {
         </Route>
         <Route path="/register" component={Register} />
         <Route path="/compose">
-          {/* {login.isLoggedIn ? <Compose /> : <NotLogin />} */}
-          <Compose />
+          {login.isLoggedIn ? <Compose /> : <NotLogin />}
+         
         </Route>
         <Route path="/category/:category" component={Container} />
-        <Route path="/post/:postId" component={Post} />
+        <Route path="/post/:postId" >
+        {login.isLoggedIn ? <Post /> : <NotLogin />}
+        </Route>
         <Route path="/search" component={MoreSearchResults} />
-
         <Redirect from="/logout" to="/">
           {" "}
         </Redirect>

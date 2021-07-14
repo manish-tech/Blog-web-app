@@ -9,6 +9,9 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Avatar from '@material-ui/core/Avatar';
+import CardContent from "@material-ui/core/CardContent";
+import IconButton from '@material-ui/core/IconButton';
 
 function Copyright() {
   return (
@@ -44,14 +47,54 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Register(props) {
+
+  async function handleUploadImage(input){
+    
+    if (input.target.files && input.target.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            props.setUrl(e.target.result);
+            props.inputImageRef.current = input;
+        };
+
+        reader.readAsDataURL(input.target.files[0]); 
+    }
+
+  }
+
   const classes = useStyles();
   return (
-    <Container component="main" maxWidth="xs" style={{ marginTop: "10em" }}>
+    <Container component="main" maxWidth="xs" style={{ marginTop: "6em" }}>
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Register
         </Typography>
+        <CardContent style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+          <b>Profile pic</b>
+          <IconButton
+            size = 'small'
+          >
+           <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              type="file"
+              style={{display:'none'}}
+              onInput = {handleUploadImage}
+            />
+            <label htmlFor="contained-button-file">
+            <Avatar
+              src={`${props.url}`}
+              style = {{height:'100px',width:'100px'}}
+            />
+           </label>
+
+           
+          </IconButton>
+        
+        </CardContent>
         <form
           className={classes.form}
           method="post"
@@ -143,8 +186,8 @@ export default function Register(props) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
+              <Link href="/login" variant="body2">
+                Already have an account? Login in
               </Link>
             </Grid>
           </Grid>

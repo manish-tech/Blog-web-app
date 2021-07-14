@@ -11,3 +11,14 @@ export function initializeIntersectionObserver(callback,listOfNodes){
     });
     return observer;
 }
+
+export function getPadding(oneElement,resultList,limit){
+    let height = oneElement.offsetHeight;
+    let padding = 0;
+    if(resultList){
+      if(resultList.length > limit){
+        padding = (resultList.length - limit)*height;
+      }
+    }
+    return padding;
+  }

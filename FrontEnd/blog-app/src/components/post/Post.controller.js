@@ -13,7 +13,9 @@ function renderPost({
   commentList,
   setCommentList,
 }) {
-  if (login.isLoggedIn === true) {
+  // login.isLoggedIn === true
+  if (true) {
+    
     return (
       <Post
         handleCommentSubmit={handleCommentSubmit}
@@ -50,7 +52,8 @@ function Postcontroller() {
       })
       .then((data) => {
         if (data.status) {
-          setPost(data.data[0]);
+          
+          setPost(data);
         } else {
           throw new Error("couldn't get the post");
         }
@@ -79,6 +82,7 @@ function Postcontroller() {
       })
       .then((data) => {
         if (data.status) {
+         
           if (data.status) setCommentList([...data.data]);
         } else {
           alert("couldn't post");
@@ -92,15 +96,19 @@ function Postcontroller() {
 
   return (
     <div>
-      {renderPost({
-        login,
-        handleCommentSubmit,
-        comment,
-        setComment,
-        post,
-        commentList,
-        setCommentList,
-      })}
+      {
+        post.data?
+          renderPost({
+          login,
+          handleCommentSubmit,
+          comment,
+          setComment,
+          post,
+          commentList,
+          setCommentList,
+        })
+      : null
+      }
     </div>
   );
 }

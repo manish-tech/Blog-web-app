@@ -2,9 +2,11 @@ import { Button } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 const StyledButton = styled(Button)`
   display: block;
+  width: 260px;
 `;
 const StyledCategory = styled.div`
   display: flex;
@@ -84,7 +86,8 @@ function Category({ categories, setPagenumber, setLeftDissabled }) {
           }}
           variant="contained"
         >
-          categories {">"}
+          categories 
+          {!isDropdown ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}
         </StyledButton>
         <StyledUl isDropdown={isDropdown}>{renderCategories()}</StyledUl>
     </StyledCategory>

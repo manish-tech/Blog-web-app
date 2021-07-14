@@ -3,7 +3,6 @@ import Aside from "../aside/Aside.controler";
 import Main from "../main/Main.controller";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { PaginationContext } from "../pagination/PaginationContext";
 const Section = styled.section`
   max-width: 100%;
 `;
@@ -74,10 +73,8 @@ function Container() {
       </BackGroundImage>
     
       <SubContainer>
-      <PaginationContext>
         <Main />
         <Aside />
-      </PaginationContext>
       </SubContainer>
     </Section>
   );

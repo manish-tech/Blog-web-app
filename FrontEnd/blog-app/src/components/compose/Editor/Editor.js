@@ -26,6 +26,7 @@ function Editor() {
   );
 
   function onChange(editorState) {
+    console.dir(editorState);
     setEditorState(editorState);
   }
 

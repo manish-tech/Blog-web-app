@@ -5,6 +5,7 @@ import Pagnition from "../pagination/Pagination.controller";
 import { PageContext } from "../pagination/PaginationContext";
 const StyledMain = styled.main`
   width: 90%;
+  margin-top: 0.3em;
   @media screen and (min-width: 900px) {
     width: 60%;
   }
@@ -39,9 +40,9 @@ function Main({ categoryName, categoryId }) {
     let url;
     //initial render default is all
     if (categoryId === "" || categoryId === "0") {
-      url = `http://localhost:8080/category/all?pageNumber=${pageNumber}`;
+      url = `/category/all?pageNumber=${pageNumber}`;
     } else {
-      url = `http://localhost:8080/category/${categoryName}/?categoryId=${categoryId}&pageNumber=${pageNumber}`;
+      url = `/category/${categoryName}/?categoryId=${categoryId}&pageNumber=${pageNumber}`;
     }
     fetch(url, {
       method: "GET",
